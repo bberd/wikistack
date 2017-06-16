@@ -1,27 +1,31 @@
 var express           = require('express');
 var router            = express.Router();
-// var Sequelize         = require('sequelize');
-// var db                = new Sequelize('postgres://localhost:5432/wikistack');
-
+var wikiRouter              = require('./wiki');
+var userRouter              = require('./user');
 
 
 module.exports = function something () {
 
+router.use('/wiki', wikiRouter);
+router.use('/user', userRouter);
+
+
+router.get('/', function (req, res, next) {
+  res.send('GET IT');
+});
+
+router.get('/add', function (req, res, next) {
+
+});
+
+router.post('/add', function (req, res, next) {
+  res.send('GET IT');
+});
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-  return router;
+return router;
 }
