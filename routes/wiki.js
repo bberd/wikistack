@@ -15,6 +15,19 @@ router.get('/add', function (req, res, next) {
   res.render('addpage');
 });
 
+router.get('/:urlTitle', function (req, res, next) {
+  console.log(req.params);
+  Page.findOne({
+    where: {
+      urlTitle: req.params.urlTitle
+    }
+  })
+  .then(function(foundPage) {
+    res.render('wikipage', foundPage);
+    //res.json(foundPage);
+  })
+  .catch(next);
+});
 
 router.post('/', function (req, res, next) {
   let title = req.body.title;
@@ -28,7 +41,9 @@ router.post('/', function (req, res, next) {
   );
 
   page.save()
-    .then(res.json(page))
+    .then(function() {
+      res.redirect(page.route)
+    })
     .catch(console.error);
 
 });

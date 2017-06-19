@@ -39,13 +39,13 @@ var Page = db.define('page',
 
 
 Page.hook('beforeValidate', (page, options) => {
-        if (page.title) {
-          //remove all whitespace   and then all numeric
-          page.urlTitle = page.title.replace(/\s+/g, '_').replace(/\W/g, '');
-        } else {
-          //create random title
-          page.urlTitle = Math.random().toString(36).substring(2, 7);
-        }
+    if (page.title) {
+      //remove all whitespace   and then all numeric
+      page.urlTitle = page.title.replace(/\s+/g, '_').replace(/\W/g, '');
+    } else {
+      //create random title
+      page.urlTitle = Math.random().toString(36).substring(2, 7);
+    }
 });
 
 
