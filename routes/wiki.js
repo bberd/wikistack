@@ -25,10 +25,14 @@ router.get('/:urlTitle', function (req, res, next) {
     }
   })
   .then(function(foundPage) {
-    //.dataValues is the only part of foundPage with relevant data
-    const pageData = foundPage.dataValues;
-    console.log(pageData);
-    res.render('wikipage', pageData);
+    return foundPage.getAuthor()
+      .then(function(author) {
+        foundPage.dataValues.author = author;
+        //.dataValues is the only part of foundPage with relevant data
+        const pageData = foundPage.dataValues;
+        res.render('wikipage', pageData);
+      });
+
   })
   .catch(next);
 });
