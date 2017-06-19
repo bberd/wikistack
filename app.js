@@ -25,7 +25,7 @@ app.use(morgan('dev'));
 
 
 
-app.use('/', router); //creates middleware. SHOULD BE LAST
+app.use('/', router); //creates middleware. SHOULD BE LAST.
 
 
 

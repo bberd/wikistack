@@ -16,7 +16,6 @@ router.get('/add', function (req, res, next) {
 });
 
 
-
 router.post('/', function (req, res, next) {
   let title = req.body.title;
   let content = req.body.content;
@@ -29,10 +28,10 @@ router.post('/', function (req, res, next) {
   );
 
   page.save()
-    .then(res.redirect('/'));
+    .then(res.json(page))
+    .catch(console.error);
 
 });
-
 
 
 
