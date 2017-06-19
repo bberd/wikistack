@@ -36,7 +36,7 @@ app.use('/', router); //creates middleware. SHOULD BE LAST.
 //sync models
 models.User.sync({force: true}) // force: true --> drops table and recreated to make changes. overwrites existing table
   .then(function() {
-    return models.Page.sync({})
+    return models.Page.sync({ force: true})
   })
   .then(function() {
     app.listen(3000, function() {

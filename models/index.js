@@ -37,7 +37,6 @@ var Page = db.define('page',
   }
 );
 
-
 Page.hook('beforeValidate', (page, options) => {
     if (page.title) {
       //remove all whitespace   and then all numeric
@@ -62,6 +61,9 @@ var User = db.define('user', {
   }
 
 });
+
+Page.belongsTo(User, {as: 'author'});
+
 
 
 module.exports = {

@@ -7,7 +7,10 @@ var User = models.User;
 
 
 router.get('/', function (req, res, next) {
-  res.send("something");
+  Page.findAll()
+    .then(function(pages) {
+      res.render('index', { pages: pages });
+    })
 });
 
 
@@ -16,38 +19,45 @@ router.get('/add', function (req, res, next) {
 });
 
 router.get('/:urlTitle', function (req, res, next) {
-  console.log(req.params);
   Page.findOne({
     where: {
       urlTitle: req.params.urlTitle
     }
   })
   .then(function(foundPage) {
-    res.render('wikipage', foundPage);
-    //res.json(foundPage);
+    //.dataValues is the only part of foundPage with relevant data
+    const pageData = foundPage.dataValues;
+    console.log(pageData);
+    res.render('wikipage', pageData);
   })
   .catch(next);
 });
 
 router.post('/', function (req, res, next) {
-  let title = req.body.title;
-  let content = req.body.content;
-
-  let page = Page.build(
-    {
-      title: title,
-      content: content
+  User.findOrCreate({
+    where: {
+      name: req.body.name,
+      email: req.body.email
     }
-  );
+  })
+  .then(function (values) {
+    var user = values[0];
+    var page = Page.build({
+      title: req.body.title,
+      content: req.body.content
+    });
 
-  page.save()
-    .then(function() {
-      res.redirect(page.route)
-    })
-    .catch(console.error);
+    return page.save()
+      .then(function (page) {
+          return page.setAuthor(user); //sets link/authorId in the Pages table, used in conjunction with findOrCreate and belongsTo
+      });
+  })
+  .then(function (page) {
+    res.redirect(page.route);
+  })
+  .catch(console.error);
 
 });
-
 
 
 module.exports = router;
